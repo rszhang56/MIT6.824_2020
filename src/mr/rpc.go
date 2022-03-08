@@ -6,27 +6,31 @@ package mr
 // remember to capitalize all names.
 //
 
-import "os"
-import "strconv"
+import (
+	"os"
+	"strconv"
+)
 
 //
 // example to show how to declare the arguments
 // and reply for an RPC.
 //
 
-type ExampleArgs struct {
-	X int
+type RequestArgs struct {
 }
 
-type ExampleReply struct {
-	Y int
+// tasktype 0 :no task, 1 :maptask, 2: reducetask
+type TaskReply struct {
+	TaskType   int
+	MapTask    *MapTask
+	ReduceTask *ReduceTask
+	nReduce    int
 }
 
 // Add your RPC definitions here.
 
-
 // Cook up a unique-ish UNIX-domain socket name
-// in /var/tmp, for the master.
+// in /var/tmp, for the coordinator.
 // Can't use the current directory since
 // Athena AFS doesn't support UNIX-domain sockets.
 func masterSock() string {
