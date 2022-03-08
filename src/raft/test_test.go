@@ -382,6 +382,7 @@ func TestBackup2B(t *testing.T) {
 	cfg.disconnect((leader1 + 2) % servers)
 	cfg.disconnect((leader1 + 3) % servers)
 	cfg.disconnect((leader1 + 4) % servers)
+	fmt.Printf("disconnect 3\n")
 
 	// submit lots of commands that won't commit
 	for i := 0; i < 50; i++ {
@@ -397,6 +398,7 @@ func TestBackup2B(t *testing.T) {
 	cfg.connect((leader1 + 2) % servers)
 	cfg.connect((leader1 + 3) % servers)
 	cfg.connect((leader1 + 4) % servers)
+	fmt.Printf("other 3 back\n")
 
 	// lots of successful commands to new group.
 	for i := 0; i < 50; i++ {
@@ -410,6 +412,7 @@ func TestBackup2B(t *testing.T) {
 		other = (leader2 + 1) % servers
 	}
 	cfg.disconnect(other)
+	fmt.Printf("disconnect one\n")
 
 	// lots more commands that won't commit
 	for i := 0; i < 50; i++ {
@@ -425,6 +428,7 @@ func TestBackup2B(t *testing.T) {
 	cfg.connect((leader1 + 0) % servers)
 	cfg.connect((leader1 + 1) % servers)
 	cfg.connect(other)
+	fmt.Printf("3 online: %v, %v, %v\n", leader1, leader1+1, other)
 
 	// lots of successful commands to new group.
 	for i := 0; i < 50; i++ {
@@ -435,6 +439,7 @@ func TestBackup2B(t *testing.T) {
 	for i := 0; i < servers; i++ {
 		cfg.connect(i)
 	}
+	fmt.Printf("all back\n")
 	cfg.one(rand.Int(), servers, true)
 
 	cfg.end()
@@ -766,7 +771,6 @@ func TestUnreliableAgree2C(t *testing.T) {
 
 	cfg.end()
 }
-
 func TestFigure8Unreliable2C(t *testing.T) {
 	servers := 5
 	cfg := make_config(t, servers, true)
